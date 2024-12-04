@@ -119,6 +119,10 @@ body {
     transform: translateY(-3px);
 }
 
+.playing>svg {
+    fill: var(--color-secondary-text);
+}
+
 /* ------------------------------------------------ */
 /* PLAYLIST COMPONENT */
 /* ------------------------------------------------ */
@@ -178,6 +182,34 @@ body {
 .playlist-song-artist {
     color: var(--color-muted-text);
     font-size: 14px;
+}
+
+.playlist-song-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-sm);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-default);
+    text-align: left;
+}
+
+.playlist-song-info:hover {
+    background-color: transparent;
+}
+
+.playlist-song-info span {
+    margin-right: var(--spacing-md);
+}
+
+.playlist-song-info .playlist-song-title {
+    flex: 2;
+}
+
+.playlist-song-info .playlist-song-artist {
+    flex: 1;
 }
 
 /* ------------------------------------------------ */
