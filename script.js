@@ -97,6 +97,7 @@ const playSong = (id) => {
     userData.currentSong = song; // Update the current song
     playButton.classList.add("playing"); // Add playing class to the play button
     updatePlayerDisplay(); // Update the player display with the current song info
+    highlightCurrentSong();
     audio.play(); // Start playing the audio
 };
 
@@ -112,8 +113,8 @@ const pauseSong = () => {
 const playNextSong = () => {
     // Get the index of the current song in the songs array
     const currentSongIndex = getCurrentSongIndex();
-   
-    if(userData?.currentSong === null || currentSongIndex === userData?.songs.length - 1){  // Check if there is no current song or if the current song is the last in the list
+
+    if (userData?.currentSong === null || currentSongIndex === userData?.songs.length - 1) {  // Check if there is no current song or if the current song is the last in the list
         // If true, play the first song in the list
         playSong(userData?.songs[0].id);
     }
@@ -145,6 +146,7 @@ const shuffleSongs = () => {
     // Shuffle the songs and render the shuffled playlist
     const shuffledSongs = userData.songs.sort(() => 0.5 - Math.random());
     renderSongs(shuffledSongs);
+    highlightCurrentSong();
 };
 
 
@@ -164,6 +166,22 @@ const updatePlayerDisplay = () => {
 };
 
 
+// Highlight Current Song
+const highlightCurrentSong = () => {
+    // Clear previous highlights
+    const playlistSongElements = document.querySelectorAll(".playlist-song");
+    playlistSongElements.forEach((song) => {
+        song.classList.remove("highlight"); // Remove highlight class from all songs
+    });
+    
+    // Highlight the current song
+    const currentSongId = userData?.currentSong?.id;
+    const songToHighlight = document.getElementById(`song-${currentSongId}`);
+    
+    if (!songToHighlight.classList.contains("highlight")) {
+        songToHighlight.classList.add("highlight"); // Add highlight class to the current song
+    }
+};
 
 
 // Event Handlers
