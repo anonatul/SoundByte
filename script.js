@@ -47,13 +47,13 @@ const userData = {
 const renderSongs = (array) => {
     // Generate HTML for the song list and update the playlist display
     const songsHTML = array.map((song) => `
-        <li id="song-${song.id}" class="playlist-song">
-            <button class="playlist-song-info" onclick="playSong(${song.id})">
-                <span class="playlist-song-album-art"><img src="${song.albumArt}" alt=""></span>
-                <span class="playlist-song-title">${song.title}</span>
-                <span class="playlist-song-artist">${song.artist}</span>
-            </button>
-        </li>
+    <li id="song-${song.id}" class="playlist-song">
+    <button class="playlist-song-info" onclick="playSong(${song.id})">
+    <span class="playlist-song-album-art"><img src="${song.albumArt}" alt=""></span>
+    <span class="playlist-song-title">${song.title}</span>
+    <span class="playlist-song-artist">${song.artist}</span>
+    </button>
+    </li>
     `).join("");
 
     playlistSongs.innerHTML = songsHTML; // Update the inner HTML of the playlist
@@ -173,11 +173,11 @@ const highlightCurrentSong = () => {
     playlistSongElements.forEach((song) => {
         song.classList.remove("highlight"); // Remove highlight class from all songs
     });
-    
+
     // Highlight the current song
     const currentSongId = userData?.currentSong?.id;
     const songToHighlight = document.getElementById(`song-${currentSongId}`);
-    
+
     if (!songToHighlight.classList.contains("highlight")) {
         songToHighlight.classList.add("highlight"); // Add highlight class to the current song
     }
@@ -201,3 +201,8 @@ nextButton.addEventListener("click", playNextSong); // Play the next song
 previousButton.addEventListener("click", playPreviousSong); // Play the previous song
 shuffleButton.addEventListener("click", shuffleSongs); // Shuffle the playlist
 audio.addEventListener("ended", playNextSong); // Automatically play the next song when the current one ends
+
+audio.addEventListener("timeupdate", () => {
+    const progressRatio = (audio.currentTime/audio.duration) * 100;
+    document.querySelector(".progress-bar").style.width = `${progressRatio}%`;
+})
