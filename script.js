@@ -8,6 +8,8 @@ const playlistSongs = document.getElementById("playlist-songs"); // Container fo
 const playerDisplayTitle = document.getElementById("player-display-title"); // Display for the current song title
 const playerDisplayArtist = document.getElementById("player-display-artist"); // Display for the current song artist
 const albumArtImage = document.querySelector("#player-album-art img"); // Image element for the album art
+const progressContainer = document.querySelector(".progress-container"); // Selects the container for progress bar
+const progressBar = document.querySelector(".progress-bar"); // Selects the progress bar element
 
 // Audio Setup
 const audio = new Audio(); // Create a new audio object for playback
@@ -183,6 +185,22 @@ const highlightCurrentSong = () => {
     }
 };
 
+// Function to set up event listeners  for the audio progress bar
+const setupProgressListeners = () => {
+    // Event listeners to update the progress bar as the audio plays
+    audio.addEventListener("timeupdate", () => {
+        const progressRatio = (audio.currentTime / audio.duration) * 100; // Calculate the progress ratio as a percentage
+        progressBar.style.width = `${progressRatio}%`; // Update the width of the progress bar based on the progress ratio
+    });
+
+    // Event listener to handel clicks on the progress container
+    progressContainer.addEventListener("click", (e) => {
+        const containerWidth = e.currentTarget.offsetWidth; // Get the width of the progress container 
+        const clickX = e.offsetX; // Get the X position of the click within the container
+        const newTime = (clickX / containerWidth) * audio.duration; // Calculate the new playback time based on the click position
+        audio.currentTime = newTime; // Set the audio's current time to the new time
+    });
+}
 
 // Event Handlers
 renderSongs(sortSongs()); // Render the sorted songs on initial load
@@ -202,7 +220,4 @@ previousButton.addEventListener("click", playPreviousSong); // Play the previous
 shuffleButton.addEventListener("click", shuffleSongs); // Shuffle the playlist
 audio.addEventListener("ended", playNextSong); // Automatically play the next song when the current one ends
 
-audio.addEventListener("timeupdate", () => {
-    const progressRatio = (audio.currentTime/audio.duration) * 100;
-    document.querySelector(".progress-bar").style.width = `${progressRatio}%`;
-})
+setupProgressListeners(); // Call the function to setup up progress listeners
